@@ -30,6 +30,7 @@ class TaskController extends Controller
     public function create(Workspace $workspace): View
     {
         $this->authorize('view', $workspace);
+        $this->authorize('create', [Task::class, $workspace]);
         
         return view('tasks.create', compact('workspace'));
     }
@@ -37,6 +38,7 @@ class TaskController extends Controller
     public function store(Request $request, Workspace $workspace): RedirectResponse
     {
         $this->authorize('view', $workspace);
+        $this->authorize('create', [Task::class, $workspace]);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -56,6 +58,7 @@ class TaskController extends Controller
     public function show(Workspace $workspace, Task $task): View
     {
         $this->authorize('view', $workspace);
+        $this->authorize('view', $task);
         $this->ensureTaskBelongsToWorkspace($task, $workspace);
 
         return view('tasks.show', compact('workspace', 'task'));
@@ -64,6 +67,7 @@ class TaskController extends Controller
     public function edit(Workspace $workspace, Task $task): View
     {
         $this->authorize('view', $workspace);
+        $this->authorize('update', $task);
         $this->ensureTaskBelongsToWorkspace($task, $workspace);
 
         return view('tasks.edit', compact('workspace', 'task'));
@@ -72,6 +76,7 @@ class TaskController extends Controller
     public function update(Request $request, Workspace $workspace, Task $task): RedirectResponse
     {
         $this->authorize('view', $workspace);
+        $this->authorize('update', $task);
         $this->ensureTaskBelongsToWorkspace($task, $workspace);
 
         $validated = $request->validate([
@@ -90,6 +95,7 @@ class TaskController extends Controller
     public function destroy(Workspace $workspace, Task $task): RedirectResponse
     {
         $this->authorize('view', $workspace);
+        $this->authorize('delete', $task);
         $this->ensureTaskBelongsToWorkspace($task, $workspace);
 
         $task->delete();
@@ -102,6 +108,7 @@ class TaskController extends Controller
     public function toggleStatus(Workspace $workspace, Task $task): RedirectResponse
     {
         $this->authorize('view', $workspace);
+        $this->authorize('toggle', $task);
         $this->ensureTaskBelongsToWorkspace($task, $workspace);
 
         if ($task->status === 'completed') {

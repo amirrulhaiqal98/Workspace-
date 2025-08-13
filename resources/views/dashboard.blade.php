@@ -14,7 +14,7 @@
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-folder"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Workspaces</span>
-                    <span class="info-box-number">0</span>
+                    <span class="info-box-number">{{ $workspaceCount }}</span>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-tasks"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Total Tasks</span>
-                    <span class="info-box-number">0</span>
+                    <span class="info-box-number">{{ $totalTasks }}</span>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Completed</span>
-                    <span class="info-box-number">0</span>
+                    <span class="info-box-number">{{ $completedTasks }}</span>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-clock"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Pending</span>
-                    <span class="info-box-number">0</span>
+                    <span class="info-box-number">{{ $pendingTasks }}</span>
                 </div>
             </div>
         </div>

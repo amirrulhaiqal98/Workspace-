@@ -17,12 +17,16 @@
                         <i class="fas fa-tasks"></i> Tasks in "{{ $workspace->name }}"
                     </h3>
                     <div class="card-tools">
-                        <a href="{{ route('workspaces.tasks.create', $workspace) }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Add Task
-                        </a>
-                        <a href="{{ route('workspaces.show', $workspace) }}" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-arrow-left"></i> Back to Workspace
-                        </a>
+                        @can('create', [App\Models\Task::class, $workspace])
+                            <a href="{{ route('workspaces.tasks.create', $workspace) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Add Task
+                            </a>
+                        @endcan
+                        @can('view', $workspace)
+                            <a href="{{ route('workspaces.show', $workspace) }}" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-arrow-left"></i> Back to Workspace
+                            </a>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">

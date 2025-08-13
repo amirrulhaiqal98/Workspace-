@@ -13,9 +13,11 @@
                 <div class="card-header">
                     <h3 class="card-title">My Workspaces</h3>
                     <div class="card-tools">
-                        <a href="{{ route('workspaces.create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Create Workspace
-                        </a>
+                        @can('create', App\Models\Workspace::class)
+                            <a href="{{ route('workspaces.create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Create Workspace
+                            </a>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -24,9 +26,11 @@
                             <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
                             <h4 class="text-muted">No workspaces yet</h4>
                             <p class="text-muted">Create your first workspace to start organizing your tasks.</p>
-                            <a href="{{ route('workspaces.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Create Your First Workspace
-                            </a>
+                            @can('create', App\Models\Workspace::class)
+                                <a href="{{ route('workspaces.create') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Create Your First Workspace
+                                </a>
+                            @endcan
                         </div>
                     @else
                         <div class="table-responsive">
@@ -63,20 +67,26 @@
                                             <td>{{ $workspace->created_at->format('M d, Y') }}</td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a href="{{ route('workspaces.show', $workspace) }}" class="btn btn-info btn-sm">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a href="{{ route('workspaces.edit', $workspace) }}" class="btn btn-warning btn-sm">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <form method="POST" action="{{ route('workspaces.destroy', $workspace) }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" 
-                                                                onclick="return confirm('Are you sure you want to delete this workspace? All tasks will be deleted too.')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                    @can('view', $workspace)
+                                                        <a href="{{ route('workspaces.show', $workspace) }}" class="btn btn-info btn-sm">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('update', $workspace)
+                                                        <a href="{{ route('workspaces.edit', $workspace) }}" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('delete', $workspace)
+                                                        <form method="POST" action="{{ route('workspaces.destroy', $workspace) }}" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm" 
+                                                                    onclick="return confirm('Are you sure you want to delete this workspace? All tasks will be deleted too.')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

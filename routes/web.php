@@ -10,7 +10,17 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+    $workspaceCount = $user->workspaces()->count();
+    $totalTasks = $user->workspaces()->withCount('tasks')->get()->sum('tasks_count');
+    $completedTasks = $user->workspaces()->with(['tasks' => function($query) {
+        $query->where('status', 'completed');
+    }])->get()->sum(function($workspace) {
+        return $workspace->tasks->count();
+    });
+    $pendingTasks = $totalTasks - $completedTasks;
+    
+    return view('dashboard', compact('workspaceCount', 'totalTasks', 'completedTasks', 'pendingTasks'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -19,10 +29,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     Route::resource('workspaces', WorkspaceController::class);
-    Route::resource('workspaces.tasks', TaskController::class)->except(['index', 'create']);
-    Route::get('workspaces/{workspace}/tasks', [TaskController::class, 'index'])->name('workspaces.tasks.index');
-    Route::get('workspaces/{workspace}/tasks/create', [TaskController::class, 'create'])->name('workspaces.tasks.create');
-    Route::patch('workspaces/{workspace}/tasks/{task}/toggle', [TaskController::class, 'toggleStatus'])->name('workspaces.tasks.toggle');
+    
+    Route::middleware('workspace.owner')->group(function () {
+        Route::resource('workspaces.tasks', TaskController::class)->except(['index', 'create']);
+        Route::get('workspaces/{workspace}/tasks', [TaskController::class, 'index'])->name('workspaces.tasks.index');
+        Route::get('workspaces/{workspace}/tasks/create', [TaskController::class, 'create'])->name('workspaces.tasks.create');
+        Route::patch('workspaces/{workspace}/tasks/{task}/toggle', [TaskController::class, 'toggleStatus'])->name('workspaces.tasks.toggle');
+    });
 });
 
 require __DIR__.'/auth.php';
