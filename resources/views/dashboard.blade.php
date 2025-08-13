@@ -60,7 +60,7 @@
                 <div class="card-body">
                     <p>You're successfully logged in to the Task Management System.</p>
                     <p>Get started by creating your first workspace and adding some tasks.</p>
-                    <a href="#" class="btn btn-primary">Create Workspace</a>
+                    <a href="{{ route('workspaces.create') }}" class="btn btn-primary">Create Workspace</a>
                 </div>
             </div>
         </div>
