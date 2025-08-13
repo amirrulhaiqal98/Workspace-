@@ -18,21 +18,33 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">Workspace Name <span class="text-danger">*</span></label>
-                            <input type="text" 
-                                   class="form-control @error('name') is-invalid @enderror" 
-                                   id="name" 
-                                   name="name" 
-                                   value="{{ old('name') }}" 
-                                   placeholder="Enter workspace name"
-                                   required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="name">
+                                <i class="fas fa-folder"></i> Workspace Name <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-folder-open"></i></span>
+                                </div>
+                                <input type="text" 
+                                       class="form-control @error('name') is-invalid @enderror" 
+                                       id="name" 
+                                       name="name" 
+                                       value="{{ old('name') }}" 
+                                       placeholder="Enter workspace name"
+                                       required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle"></i> Choose a descriptive name for your workspace
+                            </small>
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Description</label>
+                            <label for="description">
+                                <i class="fas fa-align-left"></i> Description
+                            </label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" 
                                       name="description" 
@@ -41,6 +53,9 @@
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <small class="form-text text-muted">
+                                <i class="fas fa-lightbulb"></i> Optional: Describe what this workspace is for
+                            </small>
                         </div>
                     </div>
 

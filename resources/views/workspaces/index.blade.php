@@ -34,37 +34,51 @@
                         </div>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead>
+                            <table class="table table-bordered table-striped table-hover" id="workspacesTable">
+                                <thead class="thead-dark">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Tasks</th>
-                                        <th>Completed</th>
-                                        <th>Pending</th>
-                                        <th>Created</th>
-                                        <th>Actions</th>
+                                        <th><i class="fas fa-folder"></i> Name</th>
+                                        <th><i class="fas fa-align-left"></i> Description</th>
+                                        <th><i class="fas fa-tasks"></i> Tasks</th>
+                                        <th><i class="fas fa-check-circle"></i> Completed</th>
+                                        <th><i class="fas fa-clock"></i> Pending</th>
+                                        <th><i class="fas fa-calendar-plus"></i> Created</th>
+                                        <th><i class="fas fa-cogs"></i> Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($workspaces as $workspace)
                                         <tr>
                                             <td>
-                                                <a href="{{ route('workspaces.show', $workspace) }}" class="font-weight-bold">
-                                                    {{ $workspace->name }}
+                                                <a href="{{ route('workspaces.show', $workspace) }}" class="font-weight-bold text-primary">
+                                                    <i class="fas fa-folder-open"></i> {{ $workspace->name }}
                                                 </a>
                                             </td>
-                                            <td>{{ Str::limit($workspace->description, 50) ?: '-' }}</td>
                                             <td>
-                                                <span class="badge badge-info">{{ $workspace->tasks_count }}</span>
+                                                <span class="text-muted">
+                                                    {{ Str::limit($workspace->description, 50) ?: 'No description' }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge badge-info badge-pill">
+                                                    {{ $workspace->tasks_count }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge badge-success badge-pill">
+                                                    {{ $workspace->completed_tasks_count }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge badge-warning badge-pill">
+                                                    {{ $workspace->incomplete_tasks_count }}
+                                                </span>
                                             </td>
                                             <td>
-                                                <span class="badge badge-success">{{ $workspace->completed_tasks_count }}</span>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar"></i> {{ $workspace->created_at->format('M d, Y') }}
+                                                </small>
                                             </td>
-                                            <td>
-                                                <span class="badge badge-warning">{{ $workspace->incomplete_tasks_count }}</span>
-                                            </td>
-                                            <td>{{ $workspace->created_at->format('M d, Y') }}</td>
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     @can('view', $workspace)

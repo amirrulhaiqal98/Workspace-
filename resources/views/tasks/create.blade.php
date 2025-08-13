@@ -23,20 +23,27 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="title">Task Title <span class="text-danger">*</span></label>
-                            <input type="text" 
-                                   class="form-control @error('title') is-invalid @enderror" 
-                                   id="title" 
-                                   name="title" 
-                                   value="{{ old('title') }}" 
-                                   placeholder="Enter task title"
-                                   required>
-                            @error('title')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-tasks"></i></span>
+                                </div>
+                                <input type="text" 
+                                       class="form-control @error('title') is-invalid @enderror" 
+                                       id="title" 
+                                       name="title" 
+                                       value="{{ old('title') }}" 
+                                       placeholder="Enter task title"
+                                       required>
+                                @error('title')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Description</label>
+                            <label for="description">
+                                <i class="fas fa-align-left"></i> Description
+                            </label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" 
                                       name="description" 
@@ -45,30 +52,47 @@
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle"></i> Provide additional details about this task (optional)
+                            </small>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="deadline_date">Deadline Date <span class="text-danger">*</span></label>
-                                    <input type="date" 
-                                           class="form-control @error('deadline') is-invalid @enderror" 
-                                           id="deadline_date" 
-                                           name="deadline_date" 
-                                           value="{{ old('deadline_date', now()->addDay()->format('Y-m-d')) }}" 
-                                           min="{{ now()->format('Y-m-d') }}"
-                                           required>
+                                    <label for="deadline_date">
+                                        <i class="fas fa-calendar"></i> Deadline Date <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                        </div>
+                                        <input type="date" 
+                                               class="form-control @error('deadline') is-invalid @enderror" 
+                                               id="deadline_date" 
+                                               name="deadline_date" 
+                                               value="{{ old('deadline_date', now()->addDay()->format('Y-m-d')) }}" 
+                                               min="{{ now()->format('Y-m-d') }}"
+                                               required>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="deadline_time">Deadline Time <span class="text-danger">*</span></label>
-                                    <input type="time" 
-                                           class="form-control @error('deadline') is-invalid @enderror" 
-                                           id="deadline_time" 
-                                           name="deadline_time" 
-                                           value="{{ old('deadline_time', '17:00') }}" 
-                                           required>
+                                    <label for="deadline_time">
+                                        <i class="fas fa-clock"></i> Deadline Time <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                        </div>
+                                        <input type="time" 
+                                               class="form-control @error('deadline') is-invalid @enderror" 
+                                               id="deadline_time" 
+                                               name="deadline_time" 
+                                               value="{{ old('deadline_time', '17:00') }}" 
+                                               required>
+                                    </div>
                                 </div>
                             </div>
                         </div>

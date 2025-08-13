@@ -57,10 +57,10 @@
                                 <tbody>
                                     @foreach($tasks as $task)
                                         <tr class="{{ $task->is_overdue ? 'table-danger' : '' }}">
-                                            <td>
+                                            <td data-label="Select">
                                                 <input type="checkbox" class="task-checkbox" value="{{ $task->id }}">
                                             </td>
-                                            <td>
+                                            <td data-label="Title">
                                                 <a href="{{ route('workspaces.tasks.show', [$workspace, $task]) }}" class="font-weight-bold">
                                                     {{ $task->title }}
                                                 </a>
@@ -68,30 +68,49 @@
                                                     <br><small class="text-muted">{{ Str::limit($task->description, 50) }}</small>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td data-label="Status">
                                                 {!! $task->status_badge !!}
                                             </td>
-                                            <td>
-                                                <i class="fas fa-calendar"></i>
-                                                {{ $task->deadline->format('M d, Y') }}
-                                                <br><small class="text-muted">{{ $task->deadline->format('g:i A') }}</small>
+                                            <td data-label="Deadline">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-calendar text-muted mr-2"></i>
+                                                    <div>
+                                                        <strong>{{ $task->deadline->format('M d, Y') }}</strong>
+                                                        <br><small class="text-muted">
+                                                            <i class="fas fa-clock"></i> {{ $task->deadline->format('g:i A') }}
+                                                            <span class="ml-1">({{ $task->deadline->diffForHumans() }})</span>
+                                                        </small>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td>
+                                            <td data-label="Time Remaining">
                                                 @if($task->status === 'completed')
-                                                    <span class="text-success">
-                                                        <i class="fas fa-check"></i> {{ $task->time_remaining }}
-                                                    </span>
+                                                    <div class="d-flex align-items-center text-success">
+                                                        <i class="fas fa-check-circle mr-2"></i>
+                                                        <div>
+                                                            <strong>Completed</strong>
+                                                            <br><small>{{ $task->time_remaining }}</small>
+                                                        </div>
+                                                    </div>
                                                 @elseif($task->is_overdue)
-                                                    <span class="text-danger">
-                                                        <i class="fas fa-exclamation-triangle"></i> {{ $task->time_remaining }}
-                                                    </span>
+                                                    <div class="d-flex align-items-center text-danger">
+                                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                                        <div>
+                                                            <strong>Overdue</strong>
+                                                            <br><small>{{ $task->time_remaining }}</small>
+                                                        </div>
+                                                    </div>
                                                 @else
-                                                    <span class="text-info">
-                                                        <i class="fas fa-clock"></i> {{ $task->time_remaining }}
-                                                    </span>
+                                                    <div class="d-flex align-items-center text-primary">
+                                                        <i class="fas fa-hourglass-half mr-2"></i>
+                                                        <div>
+                                                            <strong>{{ $task->time_remaining }}</strong>
+                                                            <br><small class="text-muted">remaining</small>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td data-label="Actions">
                                                 <div class="btn-group" role="group">
                                                     <form method="POST" action="{{ route('workspaces.tasks.toggle', [$workspace, $task]) }}" class="d-inline">
                                                         @csrf

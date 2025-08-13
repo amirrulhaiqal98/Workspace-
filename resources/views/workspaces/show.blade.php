@@ -49,11 +49,11 @@
         <div class="col-lg-3 col-6">
             <div class="small-box bg-secondary">
                 <div class="inner">
-                    <h3>{{ $workspace->created_at->diffForHumans() }}</h3>
+                    <h3 style="font-size: 1.5rem;">{{ $workspace->created_at->diffForHumans() }}</h3>
                     <p>Created</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-calendar"></i>
+                    <i class="fas fa-calendar-plus"></i>
                 </div>
             </div>
         </div>
@@ -110,8 +110,18 @@
                                                 {!! $task->status_badge !!}
                                             </td>
                                             <td>
-                                                {{ $task->deadline->format('M d, Y H:i') }}
-                                                <br><small class="text-muted">{{ $task->time_remaining }}</small>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-calendar text-muted mr-2"></i>
+                                                    <div>
+                                                        <strong>{{ $task->deadline->format('M d, Y') }}</strong>
+                                                        <br><small class="text-muted">
+                                                            <i class="fas fa-clock"></i> {{ $task->deadline->format('g:i A') }}
+                                                        </small>
+                                                        <br><small class="badge badge-{{ $task->is_overdue ? 'danger' : ($task->status === 'completed' ? 'success' : 'info') }}">
+                                                            {{ $task->time_remaining }}
+                                                        </small>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
@@ -159,11 +169,17 @@
                     <strong>Description:</strong>
                     <p class="text-muted">{{ $workspace->description ?: 'No description provided' }}</p>
 
-                    <strong>Created:</strong>
-                    <p class="text-muted">{{ $workspace->created_at->format('M d, Y g:i A') }}</p>
+                    <strong><i class="fas fa-calendar-plus text-muted"></i> Created:</strong>
+                    <p class="text-muted">
+                        {{ $workspace->created_at->format('M d, Y g:i A') }}
+                        <br><small>({{ $workspace->created_at->diffForHumans() }})</small>
+                    </p>
 
-                    <strong>Last Updated:</strong>
-                    <p class="text-muted">{{ $workspace->updated_at->format('M d, Y g:i A') }}</p>
+                    <strong><i class="fas fa-edit text-muted"></i> Last Updated:</strong>
+                    <p class="text-muted">
+                        {{ $workspace->updated_at->format('M d, Y g:i A') }}
+                        <br><small>({{ $workspace->updated_at->diffForHumans() }})</small>
+                    </p>
                 </div>
                 <div class="card-footer">
                     <a href="{{ route('workspaces.edit', $workspace) }}" class="btn btn-warning btn-sm">

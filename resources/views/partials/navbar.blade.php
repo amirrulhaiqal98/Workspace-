@@ -12,11 +12,18 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+        <!-- Quick Actions Button -->
+        <li class="nav-item">
+            <button class="btn btn-link nav-link" data-toggle="modal" data-target="#quickActionModal" title="Quick Actions (Ctrl+K)">
+                <i class="fas fa-bolt text-primary"></i>
+            </button>
+        </li>
+        
         <!-- User Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-user"></i>
-                <span class="badge badge-warning navbar-badge"></span>
+                <span class="badge badge-info navbar-badge">{{ Auth::user()->username }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">{{ Auth::user()->name }}</span>
