@@ -66,9 +66,12 @@
                 <div class="card-header">
                     <h3 class="card-title">Tasks in this Workspace</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-success btn-sm">
+                        <a href="{{ route('workspaces.tasks.create', $workspace) }}" class="btn btn-success btn-sm">
                             <i class="fas fa-plus"></i> Add Task
-                        </button>
+                        </a>
+                        <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-info btn-sm">
+                            <i class="fas fa-list"></i> View All Tasks
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -77,9 +80,9 @@
                             <i class="fas fa-tasks fa-4x text-muted mb-3"></i>
                             <h4 class="text-muted">No tasks yet</h4>
                             <p class="text-muted">Add your first task to get started.</p>
-                            <button class="btn btn-success">
+                            <a href="{{ route('workspaces.tasks.create', $workspace) }}" class="btn btn-success">
                                 <i class="fas fa-plus"></i> Add First Task
-                            </button>
+                            </a>
                         </div>
                     @else
                         <div class="table-responsive">
@@ -93,28 +96,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($workspace->tasks as $task)
-                                        <tr>
-                                            <td>{{ $task->title }}</td>
+                                    @foreach($workspace->tasks->take(10) as $task)
+                                        <tr class="{{ $task->is_overdue ? 'table-danger' : '' }}">
                                             <td>
-                                                @if($task->status === 'completed')
-                                                    <span class="badge badge-success">Completed</span>
-                                                @else
-                                                    <span class="badge badge-warning">Pending</span>
+                                                <a href="{{ route('workspaces.tasks.show', [$workspace, $task]) }}">
+                                                    {{ $task->title }}
+                                                </a>
+                                                @if($task->description)
+                                                    <br><small class="text-muted">{{ Str::limit($task->description, 40) }}</small>
                                                 @endif
                                             </td>
-                                            <td>{{ $task->deadline ? $task->deadline->format('M d, Y H:i') : 'No deadline' }}</td>
+                                            <td>
+                                                {!! $task->status_badge !!}
+                                            </td>
+                                            <td>
+                                                {{ $task->deadline->format('M d, Y H:i') }}
+                                                <br><small class="text-muted">{{ $task->time_remaining }}</small>
+                                            </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <button class="btn btn-info btn-sm">
+                                                    <form method="POST" action="{{ route('workspaces.tasks.toggle', [$workspace, $task]) }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="btn btn-{{ $task->status === 'completed' ? 'warning' : 'success' }} btn-sm" title="{{ $task->status === 'completed' ? 'Mark as Incomplete' : 'Mark as Complete' }}">
+                                                            <i class="fas fa-{{ $task->status === 'completed' ? 'undo' : 'check' }}"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="{{ route('workspaces.tasks.show', [$workspace, $task]) }}" class="btn btn-info btn-sm">
                                                         <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-warning btn-sm">
+                                                    </a>
+                                                    <a href="{{ route('workspaces.tasks.edit', [$workspace, $task]) }}" class="btn btn-warning btn-sm">
                                                         <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger btn-sm">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -122,6 +135,13 @@
                                 </tbody>
                             </table>
                         </div>
+                        @if($workspace->tasks->count() > 10)
+                            <div class="card-footer text-center">
+                                <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-primary">
+                                    <i class="fas fa-list"></i> View All {{ $workspace->tasks->count() }} Tasks
+                                </a>
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>
