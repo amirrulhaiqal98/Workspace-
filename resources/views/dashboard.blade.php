@@ -10,7 +10,7 @@
     <!-- Info boxes -->
     <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
+            <div class="info-box mb-3">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-folder"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Workspaces</span>
@@ -39,11 +39,13 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-circle"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Completed</span>
+                    <span class="info-box-text">Total Completed</span>
                     <span class="info-box-number">
                         {{ $completedTasks }}
                         @if($totalTasks > 0)
                             <small class="d-block">{{ number_format(($completedTasks / $totalTasks) * 100, 1) }}% done</small>
+                        @else
+                            <small class="d-block">Get started!</small>
                         @endif
                     </span>
                 </div>

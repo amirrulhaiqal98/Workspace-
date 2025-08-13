@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'workspace.owner' => \App\Http\Middleware\EnsureWorkspaceOwnership::class,
+            'workspace.owner' => \App\Http\Middleware\WorkspaceOwnerMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

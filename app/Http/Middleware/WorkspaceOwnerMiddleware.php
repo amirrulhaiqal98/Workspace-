@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Workspace;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Workspace;
 
-class EnsureWorkspaceOwnership
+class WorkspaceOwnerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +16,12 @@ class EnsureWorkspaceOwnership
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Get the workspace from the route
-        $workspace = $request->route('workspace');
+        $workspaceId = $request->route('workspace');
         
-        // If workspace exists and user is not the owner, return 403
-        if ($workspace && $workspace instanceof Workspace) {
-            if (!Auth::check() || Auth::id() !== $workspace->user_id) {
+        if ($workspaceId) {
+            $workspace = $workspaceId instanceof Workspace ? $workspaceId : Workspace::findOrFail($workspaceId);
+            
+            if ($workspace->user_id !== auth()->id()) {
                 abort(403, 'You do not have permission to access this workspace.');
             }
         }
