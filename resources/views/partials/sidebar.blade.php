@@ -8,20 +8,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <div class="img-circle elevation-2 d-flex justify-content-center align-items-center bg-primary" style="width: 35px; height: 35px;">
-                    <i class="fas fa-user text-white"></i>
-                </div>
-            </div>
-            <div class="info">
-                <a href="{{ route('profile.edit') }}" class="d-block">
-                    <i class="fas fa-circle text-success" style="font-size: 8px;"></i> {{ Auth::user()->name }}
-                </a>
-                <small class="text-muted">@{{ Auth::user()->username }}</small>
-            </div>
-        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">

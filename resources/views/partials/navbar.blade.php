@@ -19,22 +19,46 @@
             </button>
         </li>
         
-        <!-- User Dropdown Menu -->
+        <!-- User Profile Dropdown -->
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-user"></i>
-                <span class="badge badge-info navbar-badge">{{ Auth::user()->username }}</span>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                    <div class="user-image mr-2">
+                        <div class="img-circle d-flex justify-content-center align-items-center bg-primary" style="width: 32px; height: 32px;">
+                            <i class="fas fa-user text-white" style="font-size: 14px;"></i>
+                        </div>
+                    </div>
+                    <div class="user-info d-none d-sm-block">
+                        <div class="text-dark font-weight-bold" style="font-size: 14px;">{{ auth()->user()->name }}</div>
+                        <div class="text-muted d-none d-md-block" style="font-size: 12px;">@{{ auth()->user()->username }}</div>
+                    </div>
+                    <i class="fas fa-chevron-down ml-1 ml-sm-2 text-muted" style="font-size: 12px;"></i>
+                </div>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">{{ Auth::user()->name }}</span>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow">
+                <div class="dropdown-header bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="img-circle bg-primary d-flex justify-content-center align-items-center mr-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <div class="font-weight-bold">{{ auth()->user()->name }}</div>
+                            <div class="text-muted small">@{{ auth()->user()->username }}</div>
+                            <div class="text-muted small">{{ auth()->user()->email }}</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                    <i class="fas fa-user mr-2"></i> Profile
+                    <i class="fas fa-user-edit mr-2 text-primary"></i> Edit Profile
+                </a>
+                <a href="{{ route('workspaces.index') }}" class="dropdown-item">
+                    <i class="fas fa-folder mr-2 text-warning"></i> My Workspaces
                 </a>
                 <div class="dropdown-divider"></div>
-                <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
+                <form method="POST" action="{{ route('logout') }}" class="dropdown-item p-0">
                     @csrf
-                    <button type="submit" class="btn btn-link p-0 text-left text-dark" style="text-decoration: none;">
+                    <button type="submit" class="btn btn-link text-left text-danger w-100 p-3" style="text-decoration: none;">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </button>
                 </form>

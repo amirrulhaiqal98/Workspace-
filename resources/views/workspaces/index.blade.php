@@ -15,7 +15,7 @@
                     <div class="card-tools">
                         @can('create', App\Models\Workspace::class)
                             <a href="{{ route('workspaces.create') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Create Workspace
+                                <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Create Workspace</span>
                             </a>
                         @endcan
                     </div>
@@ -33,7 +33,89 @@
                             @endcan
                         </div>
                     @else
-                        <div class="table-responsive">
+                        <!-- Mobile Card View (visible on mobile only) -->
+                        <div class="d-md-none">
+                            @foreach($workspaces as $workspace)
+                                <div class="card mb-3 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h5 class="card-title mb-0">
+                                                <a href="{{ route('workspaces.show', $workspace) }}" class="text-decoration-none">
+                                                    <i class="fas fa-folder-open text-primary"></i> {{ $workspace->name }}
+                                                </a>
+                                            </h5>
+                                            <div class="dropdown">
+                                                <button class="btn btn-link btn-sm" type="button" data-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    @can('view', $workspace)
+                                                        <a href="{{ route('workspaces.show', $workspace) }}" class="dropdown-item">
+                                                            <i class="fas fa-eye text-info"></i> View
+                                                        </a>
+                                                    @endcan
+                                                    @can('update', $workspace)
+                                                        <a href="{{ route('workspaces.edit', $workspace) }}" class="dropdown-item">
+                                                            <i class="fas fa-edit text-warning"></i> Edit
+                                                        </a>
+                                                    @endcan
+                                                    @can('delete', $workspace)
+                                                        <div class="dropdown-divider"></div>
+                                                        <form method="POST" action="{{ route('workspaces.destroy', $workspace) }}" class="dropdown-item p-0">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-link text-danger w-100 text-left p-3" 
+                                                                    onclick="return confirm('Are you sure you want to delete this workspace? All tasks will be deleted too.')">
+                                                                <i class="fas fa-trash"></i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        @if($workspace->description)
+                                            <p class="card-text text-muted small mb-2">
+                                                {{ Str::limit($workspace->description, 80) }}
+                                            </p>
+                                        @endif
+                                        
+                                        <div class="row text-center mb-2">
+                                            <div class="col-4">
+                                                <div class="d-flex flex-column">
+                                                    <span class="badge badge-info badge-pill">{{ $workspace->tasks_count }}</span>
+                                                    <small class="text-muted">Tasks</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex flex-column">
+                                                    <span class="badge badge-success badge-pill">{{ $workspace->completed_tasks_count }}</span>
+                                                    <small class="text-muted">Done</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex flex-column">
+                                                    <span class="badge badge-warning badge-pill">{{ $workspace->incomplete_tasks_count }}</span>
+                                                    <small class="text-muted">Pending</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar"></i> {{ $workspace->created_at->format('M d, Y') }}
+                                            </small>
+                                            <a href="{{ route('workspaces.show', $workspace) }}" class="btn btn-primary btn-sm">
+                                                Open <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Desktop Table View (hidden on mobile) -->
+                        <div class="table-responsive d-none d-md-block">
                             <table class="table table-bordered table-striped table-hover" id="workspacesTable">
                                 <thead class="thead-dark">
                                     <tr>

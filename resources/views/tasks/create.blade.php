@@ -11,11 +11,14 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-8 offset-lg-2">
+        <div class="col-12 col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <i class="fas fa-plus"></i> Create New Task in "{{ $workspace->name }}"
+                        <i class="fas fa-plus"></i> 
+                        <span class="d-none d-sm-inline">Create New Task in</span>
+                        <span class="d-sm-none">New Task in</span>
+                        "{{ Str::limit($workspace->name, 20) }}"
                     </h3>
                 </div>
                 <form method="POST" action="{{ route('workspaces.tasks.store', $workspace) }}">
@@ -58,7 +61,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="deadline_date">
                                         <i class="fas fa-calendar"></i> Deadline Date <span class="text-danger">*</span>
@@ -77,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="deadline_time">
                                         <i class="fas fa-clock"></i> Deadline Time <span class="text-danger">*</span>
@@ -112,12 +115,14 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> Create Task
-                        </button>
-                        <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Cancel
-                        </a>
+                        <div class="d-grid d-md-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-block btn-md-auto">
+                                <i class="fas fa-save"></i> <span class="d-none d-sm-inline">Create</span> Task
+                            </button>
+                            <a href="{{ route('workspaces.tasks.index', $workspace) }}" class="btn btn-secondary btn-block btn-md-auto">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -161,7 +161,7 @@
                         </div>
                     @else
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-lg-8 col-md-12">
                                 <h5><i class="fas fa-chart-line text-success"></i> Your Progress</h5>
                                 <p>You've created <strong>{{ $workspaceCount }}</strong> workspace{{ $workspaceCount != 1 ? 's' : '' }} 
                                    and completed <strong>{{ $completedTasks }}</strong> out of <strong>{{ $totalTasks }}</strong> tasks.</p>
@@ -179,14 +179,24 @@
                                     </div>
                                 @endif
                             </div>
-                            <div class="col-md-4 text-center">
-                                <div class="btn-group-vertical" role="group">
-                                    <a href="{{ route('workspaces.create') }}" class="btn btn-primary mb-2">
-                                        <i class="fas fa-plus"></i> New Workspace
-                                    </a>
-                                    <a href="{{ route('workspaces.index') }}" class="btn btn-info mb-2">
-                                        <i class="fas fa-folder-open"></i> View Workspaces
-                                    </a>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="d-flex d-lg-block justify-content-center">
+                                    <div class="btn-group btn-group-lg d-lg-none" role="group">
+                                        <a href="{{ route('workspaces.create') }}" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">New Workspace</span>
+                                        </a>
+                                        <a href="{{ route('workspaces.index') }}" class="btn btn-info">
+                                            <i class="fas fa-folder-open"></i> <span class="d-none d-sm-inline">View All</span>
+                                        </a>
+                                    </div>
+                                    <div class="btn-group-vertical d-none d-lg-flex w-100" role="group">
+                                        <a href="{{ route('workspaces.create') }}" class="btn btn-primary mb-2">
+                                            <i class="fas fa-plus"></i> New Workspace
+                                        </a>
+                                        <a href="{{ route('workspaces.index') }}" class="btn btn-info mb-2">
+                                            <i class="fas fa-folder-open"></i> View Workspaces
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

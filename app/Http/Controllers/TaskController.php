@@ -28,7 +28,7 @@ class TaskController extends Controller
     }
 
     public function create(Workspace $workspace): View
-    {
+    {   
         $this->authorize('view', $workspace);
         $this->authorize('create', [Task::class, $workspace]);
         
@@ -48,11 +48,11 @@ class TaskController extends Controller
 
         $validated['workspace_id'] = $workspace->id;
 
-        Task::create($validated);
+        $task = Task::create($validated);
 
         return redirect()
-            ->route('workspaces.tasks.index', $workspace)
-            ->with('success', 'Task created successfully.');
+            ->route('workspaces.show', $workspace)
+            ->with('success', 'Task "' . $task->title . '" created successfully.');
     }
 
     public function show(Workspace $workspace, Task $task): View

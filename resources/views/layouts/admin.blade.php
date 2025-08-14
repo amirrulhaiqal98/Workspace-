@@ -32,16 +32,18 @@
         
         .loading-content {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 20px 30px;
+            border-radius: 8px;
             text-align: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-width: 300px;
+            min-width: 250px;
         }
         
         .loading-spinner {
-            font-size: 3rem;
+            font-size: 2rem;
             color: #007bff;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .progress-bar-animated {
@@ -135,6 +137,12 @@
                 max-width: calc(100% - 20px);
             }
             
+            .loading-content {
+                max-width: 280px;
+                min-width: 220px;
+                padding: 15px 20px;
+            }
+            
             .timeline {
                 padding-left: 30px;
             }
@@ -174,12 +182,14 @@
             }
             
             .loading-content {
-                padding: 20px;
-                margin: 20px;
+                padding: 15px;
+                margin: 15px;
+                max-width: 250px;
+                min-width: 200px;
             }
         }
         
-        /* Improved mobile table handling */
+        /* Enhanced mobile table handling */
         @media (max-width: 768px) {
             .table-responsive table,
             .table-responsive thead,
@@ -197,29 +207,88 @@
             }
             
             .table-responsive tr {
-                border: 1px solid #ccc;
-                margin-bottom: 10px;
-                padding: 10px;
-                border-radius: 5px;
+                border: 1px solid #ddd;
+                margin-bottom: 15px;
+                padding: 15px;
+                border-radius: 8px;
                 background: white;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
             
             .table-responsive td {
                 border: none;
                 position: relative;
-                padding-left: 50%;
+                padding: 8px 8px 8px 50%;
                 text-align: right;
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
             }
             
             .table-responsive td:before {
                 content: attr(data-label) ":";
                 position: absolute;
-                left: 6px;
+                left: 8px;
                 width: 45%;
                 text-align: left;
                 font-weight: bold;
                 white-space: nowrap;
+                color: #495057;
+                display: flex;
+                align-items: center;
+            }
+            
+            .table-responsive td:first-child {
+                background-color: #f8f9fa;
+                border-radius: 6px 6px 0 0;
+                font-weight: bold;
+            }
+            
+            .table-responsive td:last-child {
+                border-radius: 0 0 6px 6px;
+                background-color: #ffffff;
+            }
+        }
+        
+        /* Mobile button improvements */
+        @media (max-width: 576px) {
+            .btn-group .btn {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            
+            .card-tools .btn-group {
+                flex-direction: column;
+            }
+            
+            .card-tools .btn-group .btn {
+                margin-bottom: 5px;
+                border-radius: 4px !important;
+            }
+            
+            .small-box .inner h3 {
+                font-size: 1.8rem;
+            }
+            
+            .small-box .inner p {
+                font-size: 14px;
+            }
+        }
+        
+        /* Responsive input groups */
+        @media (max-width: 576px) {
+            .input-group-prepend {
+                display: none;
+            }
+            
+            .form-control {
+                border-radius: 4px !important;
+            }
+            
+            .btn-block {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -307,9 +376,9 @@
                 <div class="loading-spinner">
                     <i class="fas fa-spinner fa-spin"></i>
                 </div>
-                <h4>Processing...</h4>
-                <p class="text-muted">Please wait while we process your request.</p>
-                <div class="progress mt-3">
+                <h5>Processing...</h5>
+                <p class="text-muted mb-3">Please wait</p>
+                <div class="progress" style="height: 4px;">
                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
                          role="progressbar" style="width: 100%"></div>
                 </div>
@@ -345,7 +414,7 @@
 
         <!-- Quick Action Modal -->
         <div class="modal fade" id="quickActionModal" tabindex="-1" role="dialog" aria-labelledby="quickActionModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="quickActionModalLabel">
@@ -357,31 +426,31 @@
                     </div>
                     <div class="modal-body" id="quickActionModalBody">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="card">
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h6><i class="fas fa-folder"></i> Workspace Actions</h6>
                                     </div>
                                     <div class="card-body">
-                                        <a href="{{ route('workspaces.create') }}" class="btn btn-primary btn-block mb-2">
+                                        <a href="{{ route('workspaces.create') }}" class="btn btn-primary btn-block btn-sm mb-2">
                                             <i class="fas fa-plus"></i> Create Workspace
                                         </a>
-                                        <a href="{{ route('workspaces.index') }}" class="btn btn-info btn-block">
+                                        <a href="{{ route('workspaces.index') }}" class="btn btn-info btn-block btn-sm">
                                             <i class="fas fa-list"></i> View All Workspaces
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="card">
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h6><i class="fas fa-user"></i> Account Actions</h6>
                                     </div>
                                     <div class="card-body">
-                                        <a href="{{ route('profile.edit') }}" class="btn btn-warning btn-block mb-2">
+                                        <a href="{{ route('profile.edit') }}" class="btn btn-warning btn-block btn-sm mb-2">
                                             <i class="fas fa-user-edit"></i> Edit Profile
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-block" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             <i class="fas fa-sign-out-alt"></i> Logout
                                         </button>
                                     </div>
