@@ -13,11 +13,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    // Since we have auth middleware, we can safely use auth()->user()
     $user = auth()->user();
-    
-    if (!$user) {
-        return redirect()->route('login');
-    }
     
     $workspaceCount = $user->workspaces()->count();
     $totalTasks = $user->workspaces()->withCount('tasks')->get()->sum('tasks_count');

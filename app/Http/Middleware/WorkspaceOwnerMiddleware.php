@@ -16,6 +16,11 @@ class WorkspaceOwnerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Check if user is authenticated
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        
         $workspaceId = $request->route('workspace');
         
         if ($workspaceId) {
