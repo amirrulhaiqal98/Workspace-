@@ -4,7 +4,7 @@
     <div class="brand-link d-flex align-items-center justify-content-center px-3" style="background-color: #343a40; min-height: 57px;">
         <!-- Collapsed View (Mini Sidebar) -->
         <div class="sidebar-mini-view d-none">
-            <a href="{{ route('profile.edit') }}" class="d-block">
+            <a href="{{ route(name: 'profile.edit') }}" class="d-block">
                 @if(auth()->user()->profile_picture)
                     <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" 
                          alt="Profile Picture" 

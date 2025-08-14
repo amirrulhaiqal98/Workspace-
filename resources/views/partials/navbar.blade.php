@@ -24,9 +24,16 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                 <div class="d-flex align-items-center">
                     <div class="user-image mr-2">
-                        <div class="img-circle d-flex justify-content-center align-items-center bg-primary" style="width: 32px; height: 32px;">
-                            <i class="fas fa-user text-white" style="font-size: 14px;"></i>
-                        </div>
+                        @if(auth()->user()->profile_picture)
+                            <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" 
+                                 alt="Profile Picture" 
+                                 class="img-circle elevation-1" 
+                                 style="width: 32px; height: 32px; object-fit: cover;">
+                        @else
+                            <div class="img-circle d-flex justify-content-center align-items-center bg-primary" style="width: 32px; height: 32px;">
+                                <i class="fas fa-user text-white" style="font-size: 14px;"></i>
+                            </div>
+                        @endif
                     </div>
                     <div class="user-info d-none d-sm-block">
                         <div class="text-dark font-weight-bold" style="font-size: 14px;">{{ auth()->user()->name }}</div>
@@ -38,9 +45,16 @@
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow">
                 <div class="dropdown-header bg-light">
                     <div class="d-flex align-items-center">
-                        <div class="img-circle bg-primary d-flex justify-content-center align-items-center mr-3" style="width: 40px; height: 40px;">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
+                        @if(auth()->user()->profile_picture)
+                            <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" 
+                                 alt="Profile Picture" 
+                                 class="img-circle elevation-1 mr-3" 
+                                 style="width: 40px; height: 40px; object-fit: cover;">
+                        @else
+                            <div class="img-circle bg-primary d-flex justify-content-center align-items-center mr-3" style="width: 40px; height: 40px;">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                        @endif
                         <div>
                             <div class="font-weight-bold">{{ auth()->user()->name }}</div>
                             <div class="text-muted small">&#64;{{ auth()->user()->username }}</div>

@@ -375,6 +375,50 @@
         body:not(.sidebar-mini) .sidebar-expanded-view {
             display: block !important;
         }
+        
+        /* Mobile responsive navbar profile picture */
+        @media (max-width: 576px) {
+            .navbar .user-image {
+                margin-right: 0.5rem !important;
+            }
+            
+            .navbar .user-image img,
+            .navbar .user-image .img-circle {
+                width: 28px !important;
+                height: 28px !important;
+            }
+            
+            .navbar .user-image .fas {
+                font-size: 12px !important;
+            }
+            
+            .dropdown-menu-lg {
+                max-width: calc(100vw - 20px) !important;
+                left: auto !important;
+                right: 10px !important;
+            }
+            
+            .dropdown-header .img-circle {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            
+            .dropdown-header .fas {
+                font-size: 14px !important;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .navbar .user-image img,
+            .navbar .user-image .img-circle {
+                width: 24px !important;
+                height: 24px !important;
+            }
+            
+            .navbar .user-image .fas {
+                font-size: 10px !important;
+            }
+        }
     </style>
     
     @stack('styles')
