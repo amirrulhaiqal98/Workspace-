@@ -30,7 +30,7 @@
                     </div>
                     <div class="user-info d-none d-sm-block">
                         <div class="text-dark font-weight-bold" style="font-size: 14px;">{{ auth()->user()->name }}</div>
-                        <div class="text-muted d-none d-md-block" style="font-size: 12px;">@{{ auth()->user()->username }}</div>
+                        <div class="text-muted d-none d-md-block" style="font-size: 12px;">&#64;{{ auth()->user()->username }}</div>
                     </div>
                     <i class="fas fa-chevron-down ml-1 ml-sm-2 text-muted" style="font-size: 12px;"></i>
                 </div>
@@ -43,7 +43,7 @@
                         </div>
                         <div>
                             <div class="font-weight-bold">{{ auth()->user()->name }}</div>
-                            <div class="text-muted small">@{{ auth()->user()->username }}</div>
+                            <div class="text-muted small">&#64;{{ auth()->user()->username }}</div>
                             <div class="text-muted small">{{ auth()->user()->email }}</div>
                         </div>
                     </div>

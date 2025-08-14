@@ -19,13 +19,14 @@
         .loading-overlay {
             position: fixed;
             top: 0;
-            left: 0;
+            right: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
+            padding-right: 50px;
             z-index: 9999;
             display: none;
         }
@@ -38,6 +39,18 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             max-width: 300px;
             min-width: 250px;
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
         
         .loading-spinner {
@@ -98,13 +111,20 @@
                 margin-left: 0 !important;
             }
             
-            .main-sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+            /* Fix sidebar for mobile - use AdminLTE's built-in classes */
+            body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
+            body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
+            body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+                margin-left: 0;
             }
             
-            .main-sidebar.sidebar-open {
-                transform: translateX(0);
+            .main-sidebar {
+                margin-left: -250px;
+                transition: margin-left 0.3s ease-in-out;
+            }
+            
+            body.sidebar-open .main-sidebar {
+                margin-left: 0;
             }
             
             .card-body {
@@ -135,6 +155,11 @@
             .modal-dialog {
                 margin: 10px;
                 max-width: calc(100% - 20px);
+            }
+            
+            .loading-overlay {
+                padding-right: 20px;
+                justify-content: center;
             }
             
             .loading-content {
@@ -179,6 +204,11 @@
             .d-flex.align-items-center {
                 flex-direction: column;
                 align-items: flex-start !important;
+            }
+            
+            .loading-overlay {
+                padding-right: 15px;
+                justify-content: center;
             }
             
             .loading-content {
@@ -290,6 +320,60 @@
                 width: 100%;
                 margin-bottom: 10px;
             }
+        }
+        
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: block;
+        }
+        
+        /* Mobile sidebar improvements */
+        @media (max-width: 768px) {
+            .main-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 1050;
+                box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            }
+            
+            body.sidebar-open .main-sidebar {
+                margin-left: 0;
+            }
+            
+            /* Ensure content doesn't get covered */
+            .content-wrapper {
+                min-height: calc(100vh - 57px);
+            }
+        }
+        
+        /* Sidebar collapse handling for profile picture */
+        .sidebar-mini .main-sidebar .sidebar-mini-view {
+            display: block !important;
+        }
+        
+        .sidebar-mini .main-sidebar .sidebar-expanded-view {
+            display: none !important;
+        }
+        
+        .sidebar-mini .main-sidebar .brand-link {
+            padding: 0.5rem !important;
+        }
+        
+        body:not(.sidebar-mini) .sidebar-mini-view {
+            display: none !important;
+        }
+        
+        body:not(.sidebar-mini) .sidebar-expanded-view {
+            display: block !important;
         }
     </style>
     
@@ -581,6 +665,45 @@
                     }, 800);
                 }
             });
+            
+            // Enhanced mobile sidebar functionality
+            function initMobileSidebar() {
+                // Handle pushmenu click for mobile
+                $('[data-widget="pushmenu"]').on('click', function(e) {
+                    e.preventDefault();
+                    
+                    if ($(window).width() <= 768) {
+                        // Mobile behavior
+                        $('body').toggleClass('sidebar-open');
+                        
+                        // Add overlay for mobile
+                        if ($('body').hasClass('sidebar-open')) {
+                            if (!$('.sidebar-overlay').length) {
+                                $('body').append('<div class="sidebar-overlay"></div>');
+                            }
+                        } else {
+                            $('.sidebar-overlay').remove();
+                        }
+                    }
+                });
+                
+                // Close sidebar when clicking overlay
+                $(document).on('click', '.sidebar-overlay', function() {
+                    $('body').removeClass('sidebar-open');
+                    $(this).remove();
+                });
+                
+                // Close sidebar on window resize if open
+                $(window).on('resize', function() {
+                    if ($(window).width() > 768) {
+                        $('body').removeClass('sidebar-open');
+                        $('.sidebar-overlay').remove();
+                    }
+                });
+            }
+            
+            // Initialize mobile sidebar
+            initMobileSidebar();
         });
     </script>
     

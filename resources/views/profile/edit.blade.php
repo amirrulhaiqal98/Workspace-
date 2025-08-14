@@ -14,15 +14,22 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
-                        <div class="profile-user-img img-circle elevation-2 d-inline-flex align-items-center justify-content-center bg-primary" 
-                             style="width: 128px; height: 128px; font-size: 3rem;">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
+                        @if(Auth::user()->profile_picture)
+                            <img class="profile-user-img img-fluid img-circle elevation-2" 
+                                 src="{{ asset('storage/' . Auth::user()->profile_picture) }}" 
+                                 alt="User profile picture"
+                                 style="width: 128px; height: 128px; object-fit: cover;">
+                        @else
+                            <div class="profile-user-img img-circle elevation-2 d-inline-flex align-items-center justify-content-center bg-primary" 
+                                 style="width: 128px; height: 128px; font-size: 3rem;">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                        @endif
                     </div>
 
                     <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
 
-                    <p class="text-muted text-center">@{{ Auth::user()->username }}</p>
+                    {{-- <p class="text-muted text-center">@{{ Auth::user()->username }}</p> --}}
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
