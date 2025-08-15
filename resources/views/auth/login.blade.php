@@ -20,13 +20,16 @@
             @csrf
             
             <div class="input-group mb-3">
-                <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                       name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
+                <input type="text" class="form-control @error('login') is-invalid @enderror" 
+                       name="login" value="{{ old('login') }}" placeholder="Email or Username" required autofocus>
                 <div class="input-group-append">
                     <div class="input-group-text">
-                        <span class="fas fa-envelope"></span>
+                        <span class="fas fa-user"></span>
                     </div>
                 </div>
+                @error('login')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
                 @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
