@@ -1,61 +1,152 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task Management System with Workspaces
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Objective
 
-## About Laravel
+A comprehensive task management application built with Laravel 12 that allows users to organize their tasks within workspaces. The system provides a professional interface for managing deadlines, tracking progress, and maintaining productivity through an intuitive workspace-based organization structure.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## About the Application
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This task management system is designed to help users:
+- Create and manage multiple workspaces for different projects or contexts
+- Add tasks with mandatory deadlines to ensure accountability
+- Track task completion status with visual indicators
+- Monitor overdue tasks and time remaining for upcoming deadlines
+- Maintain complete data isolation between users for privacy and security
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Core Modules
 
-## Learning Laravel
+### 🔐 Authentication Module
+- User registration and login with custom username field
+- Profile management with picture upload capability
+- Secure session management using Laravel Breeze
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🏢 Workspace Module
+- Create and manage multiple workspaces (up to 50 per user)
+- Each workspace acts as a container for related tasks
+- Workspace statistics showing task counts and completion rates
+- Complete ownership isolation - users can only access their own workspaces
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### ✅ Task Module
+- Create tasks with mandatory deadlines within workspaces
+- Task status management (incomplete/completed)
+- Overdue detection with visual warnings
+- Human-readable time displays (e.g., "3 days from now")
+- Up to 1000 tasks per workspace
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📊 Dashboard Module
+- Overview of all workspaces and tasks
+- Visual charts showing task completion statistics
+- Quick access to recent workspaces and overdue tasks
+- Responsive design optimized for all devices
 
-## Laravel Sponsors
+## Technology Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Backend
+- **Framework**: Laravel 12
+- **PHP Version**: 8.2+
+- **Database**: MySQL
+- **Authentication**: Laravel Breeze with custom modifications
 
-### Premium Partners
+### Frontend
+- **UI Framework**: AdminLTE 3 (via CDN)
+- **JavaScript**: Alpine.js 3
+- **Build Tool**: Vite 7
+- **Charts**: Chart.js integration
+- **Icons**: Font Awesome (via AdminLTE)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Development Tools
+- **Environment**: Laragon (Windows) / Laravel Sail (Docker)
+- **Package Manager**: Composer (PHP) + npm (JavaScript)
+- **Code Quality**: Laravel Pint for code formatting
+- **Debugging**: Laravel Pail for real-time log monitoring
 
-## Contributing
+## Installation & Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Prerequisites
+- PHP 8.2 or higher
+- Composer
+- Node.js & npm
+- SQLite or MySQL database
 
-## Code of Conduct
+### Step 1: Clone Repository
+```bash
+git clone <repository-url>
+cd runCloudAssesment
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Step 2: Install Dependencies
+```bash
+# Install PHP dependencies
+composer install
 
-## Security Vulnerabilities
+# Install JavaScript dependencies
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Step 3: Environment Configuration
+```bash
+# Copy environment file
+cp .env.example .env
 
-## License
+# Generate application key
+php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Create SQLite database (if using SQLite)
+touch database/database.sqlite
+```
+
+### Step 4: Database Setup
+```bash
+# Run migrations
+php artisan migrate
+
+# Seed with test data (optional)
+php artisan db:seed --class=CleanTestDataSeeder
+```
+
+### Step 5: Build Assets
+```bash
+# Build frontend assets
+npm run build
+
+# Or run in development mode with hot reload
+npm run dev
+```
+
+### Step 6: Start Development Server
+```bash
+# Start all services concurrently (recommended)
+composer run dev
+
+# Or start individual services
+php artisan serve              # Laravel server
+```
+
+## Environment Variables
+
+Key configuration options in `.env`:
+
+```env
+# Application
+APP_NAME="Task Management System"
+APP_URL=http://localhost:8000
+
+# Database
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/database/database.sqlite
+
+# Application Limits
+USER_MAX_WORKSPACES=50
+WORKSPACE_MAX_TASKS=1000
+ITEMS_PER_PAGE=15
+TASK_OVERDUE_WARNING_HOURS=24
+```
+
+## Security Features
+
+- ✅ Complete data isolation between users
+- ✅ Authorization policies for all operations
+- ✅ Middleware protection for workspace access
+- ✅ CSRF protection on all forms
+- ✅ Input validation and sanitization
+- ✅ Route model binding with automatic 404s
