@@ -128,7 +128,7 @@
                     @enderror
                 </div>
                 <small class="form-text text-muted">
-                    <i class="fas fa-info-circle"></i> This will be displayed as @{{ $user->username }}
+                    <i class="fas fa-info-circle"></i> This will be displayed as {{ $user->username }}
                 </small>
             </div>
 

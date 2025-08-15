@@ -14,41 +14,59 @@
     <!-- AdminLTE -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
     
-    <!-- Custom Loading Styles -->
+    <!-- Custom Loading Styles - v2.0 -->
     <style>
         .loading-overlay {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding-right: 50px;
-            z-index: 9999;
-            display: none;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-color: rgba(0, 0, 0, 0.6) !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 9999 !important;
+            display: none !important;
+        }
+        
+        /* Force hide when needed */
+        #globalLoadingOverlay {
+            display: none !important;
+        }
+        
+        /* Only show when explicitly enabled (which is disabled) */
+        #globalLoadingOverlay.show {
+            display: flex !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
         
         .loading-content {
             background: white;
-            padding: 20px 30px;
-            border-radius: 8px;
+            padding: 30px 40px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            max-width: 300px;
-            min-width: 250px;
-            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 350px;
+            min-width: 300px;
+            animation: scaleIn 0.3s ease-out;
+            border: 2px solid #007bff;
         }
         
-        @keyframes slideInRight {
+        @keyframes scaleIn {
             from {
-                transform: translateX(100px);
+                transform: scale(0.8);
                 opacity: 0;
             }
             to {
-                transform: translateX(0);
+                transform: scale(1);
                 opacity: 1;
             }
         }
@@ -157,15 +175,11 @@
                 max-width: calc(100% - 20px);
             }
             
-            .loading-overlay {
-                padding-right: 20px;
-                justify-content: center;
-            }
-            
             .loading-content {
                 max-width: 280px;
                 min-width: 220px;
-                padding: 15px 20px;
+                padding: 20px 25px;
+                margin: 20px;
             }
             
             .timeline {
@@ -206,13 +220,8 @@
                 align-items: flex-start !important;
             }
             
-            .loading-overlay {
-                padding-right: 15px;
-                justify-content: center;
-            }
-            
             .loading-content {
-                padding: 15px;
+                padding: 15px 20px;
                 margin: 15px;
                 max-width: 250px;
                 min-width: 200px;
@@ -499,17 +508,23 @@
         </div>
 
         <!-- Global Loading Overlay -->
-        <div class="loading-overlay" id="globalLoadingOverlay">
+        <div class="loading-overlay" id="globalLoadingOverlay" style="display: none;">
             <div class="loading-content">
+                <!-- Close Button -->
+                <button type="button" class="close" style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: #007bff;" onclick="hideGlobalLoading();">
+                    <span>&times;</span>
+                </button>
+                
                 <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin"></i>
+                    <i class="fas fa-cog fa-spin" style="font-size: 3rem; color: #007bff;"></i>
                 </div>
-                <h5>Processing...</h5>
-                <p class="text-muted mb-3">Please wait</p>
-                <div class="progress" style="height: 4px;">
+                <h4 class="mt-3 mb-2" style="color: #007bff;">Processing Request</h4>
+                <p class="text-muted mb-3">Please wait while we process your request...</p>
+                <div class="progress" style="height: 6px; border-radius: 10px;">
                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
-                         role="progressbar" style="width: 100%"></div>
+                         role="progressbar" style="width: 100%; border-radius: 10px;"></div>
                 </div>
+                <small class="text-muted mt-2 d-block">Click anywhere to close this popup</small>
             </div>
         </div>
 
@@ -608,6 +623,18 @@
     <!-- Auto-dismiss alerts after 5 seconds -->
     <script>
         $(document).ready(function() {
+            // EMERGENCY: Force hide any stuck loading overlays on page load
+            $('#globalLoadingOverlay').hide().fadeOut(0);
+            $('.loading-overlay').hide().fadeOut(0);
+            
+            // Clean up any stuck button states
+            $('.btn-loading').removeClass('btn-loading').prop('disabled', false);
+            
+            // Add click to close popup if stuck
+            $('#globalLoadingOverlay').on('click', function() {
+                $(this).hide().fadeOut(0);
+            });
+            
             // Auto-dismiss success alerts after 5 seconds
             $('.alert-success').delay(5000).fadeOut('slow');
             
@@ -619,33 +646,49 @@
             
             // Error alerts stay until manually dismissed
             
-            // Global loading functions
+            // Global loading functions - DISABLED TO PREVENT STUCK POPUP
             window.showGlobalLoading = function() {
-                $('#globalLoadingOverlay').fadeIn(300);
+                // DISABLED: $('#globalLoadingOverlay').fadeIn(300);
+                console.log('showGlobalLoading called but disabled to prevent stuck popup');
             };
             
             window.hideGlobalLoading = function() {
-                $('#globalLoadingOverlay').fadeOut(300);
+                // Multiple aggressive methods to hide the popup
+                $('#globalLoadingOverlay').removeClass('show').hide().fadeOut(0).css('display', 'none !important');
+                $('.loading-overlay').removeClass('show').hide().fadeOut(0).css('display', 'none !important');
+                
+                // Remove any inline styles that might be keeping it visible
+                $('#globalLoadingOverlay').removeAttr('style').css({
+                    'display': 'none',
+                    'visibility': 'hidden',
+                    'opacity': '0'
+                });
+                
+                console.log('Force hiding loading overlay');
             };
             
-            // Add loading state to all forms
-            $('form').on('submit', function() {
+            // Add loading state to buttons only (no automatic popup)
+            $('form').on('submit', function(e) {
                 const form = $(this);
                 const submitBtn = form.find('button[type="submit"]');
                 const originalText = submitBtn.html();
                 const loadingText = '<i class="fas fa-spinner fa-spin"></i> Processing...';
                 
-                // Show global loading for longer operations
-                showGlobalLoading();
-                
-                // Disable button and show loading
+                // Only show button loading, no global popup
                 submitBtn.html(loadingText).prop('disabled', true).addClass('btn-loading');
                 
-                // Re-enable after 5 seconds as fallback
-                setTimeout(function() {
+                // Store original state for cleanup
+                form.data('original-btn-text', originalText);
+                form.data('submit-btn', submitBtn);
+                
+                // Shorter timeout for button only
+                const timeoutId = setTimeout(function() {
                     submitBtn.html(originalText).prop('disabled', false).removeClass('btn-loading');
-                    hideGlobalLoading();
+                    console.log('Button state reset after timeout');
                 }, 5000);
+                
+                // Store timeout ID for potential cancellation
+                form.data('timeout-id', timeoutId);
             });
             
             // Enhanced confirmation modal for delete actions
@@ -662,9 +705,8 @@
                 $('#confirmModalConfirm').off('click').on('click', function() {
                     $('#confirmModal').modal('hide');
                     btn.html('<i class="fas fa-spinner fa-spin"></i> Deleting...').prop('disabled', true);
-                    showGlobalLoading();
                     
-                    // Submit the form
+                    // Submit the form without global popup
                     btn.closest('form').off('submit').submit();
                 });
             });
@@ -697,7 +739,7 @@
                 }, 1000);
             });
             
-            // Add loading to action buttons
+            // Add loading to action buttons (no global popup)
             $('.btn-info, .btn-warning').on('click', function() {
                 const btn = $(this);
                 const originalText = btn.html();
@@ -708,6 +750,12 @@
                         btn.html(originalText);
                     }, 800);
                 }
+            });
+            
+            // Manual popup trigger - DISABLED
+            $('.show-loading-popup').on('click', function() {
+                // DISABLED: showGlobalLoading();
+                console.log('Manual popup trigger disabled');
             });
             
             // Enhanced mobile sidebar functionality
@@ -748,6 +796,35 @@
             
             // Initialize mobile sidebar
             initMobileSidebar();
+            
+            // EMERGENCY: Run every 2 seconds to force hide any stuck popup
+            setInterval(function() {
+                if ($('#globalLoadingOverlay').is(':visible')) {
+                    console.log('EMERGENCY: Detected visible popup, force hiding...');
+                    hideGlobalLoading();
+                }
+            }, 2000);
+            
+            // Clean up loading states when navigating away
+            $(window).on('beforeunload unload', function() {
+                hideGlobalLoading();
+                $('.btn-loading').removeClass('btn-loading').prop('disabled', false);
+            });
+            
+            // Handle page visibility change (when user switches tabs/apps)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    // Page became visible again - ensure loading is hidden
+                    setTimeout(function() {
+                        hideGlobalLoading();
+                    }, 100);
+                }
+            });
+            
+            // Additional safety net - hide loading after any form submission completes
+            $(document).ajaxComplete(function() {
+                hideGlobalLoading();
+            });
         });
     </script>
     
